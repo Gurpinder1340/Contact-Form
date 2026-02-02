@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contract-Form</title>
+
+    <!--Favicon-->
+    <link rel="icon" href="/public/images/contact-form-email.svg">
+
+    <!--Stylesheet-->
+    <link rel="Stylesheet" href="/public/style.css">
+    </head>
+<body>
+
+<main>
+
+<form id ="Contact-Form" action="#" method="get">
+
+<h1>Contact Form</h1>
+
+
+<!--Row 1-->
+<div class="contact-row1">
+<div class ="field">
+    <label for="fname">FirstName</label>
+    <input type="text" id="fname" name="fname">
+</div>
+
+<div class="field">
+    <label for="lname">Last Name</label>
+    <input type="text" id="lname" name="lname">
+</div>
+
+<div class="field">
+<label for="jobTitle">Job Title</label>
+<input type ="text" id="jobTitle" name="jobTitle">
+</div>
+
+</div>
+
+<!--Row 2-->
+<div class="contact-row2">
+    <div class="field">
+    <label for="company">Company</label>
+    <input type="text" id="company" name="company">
+</div>
+
+<div class="field">
+    <label for="linkedin">LinkedIn URL</label>
+    <input type="url" id="linkedin" name="linkedin">
+</div>
+
+<div class="field">
+    <label for="email">Email Address</label>
+    <input type="email" id="email" name="email">
+</div>
+</div>
+
+
+<!-- Row 3 -->
+<div class="contact-row3">
+    <div class="field">
+<label for="meet">How did we meet?</label>
+<select id="meet" name="meet">
+<option value="">Please select</option>
+<option value="Work">Work</option>
+<option value="school">School</option>
+<option value="social media">Social Media</option>
+<option value="other">Other</option>
+
+</select>
+
+    </div>
+
+
+<div class="field">
+    <label for="other">Other (please specify)</label>
+    <input type="text" id="other" name="otherSpecify">
+</div>
+
+    </div>
+
+<!--Row 4-->
+<div class="contact-row4">
+<div class="field">
+    <label for="message">Message</label>
+    <textarea id="message" name="message" rows="5"></textarea>
+</div>
+
+</div>
+
+<!-- Mailing list -->
+<div class="contact-row5">
+    <input type="checkbox" id="mailingList" name="mailingList">
+    <label for="mailingList">Please add me to the mailing list</label>
+</div>
+
+
+<!-- Email format -->
+<div class="contact-row6">
+  <span>Choose an email format:</span>
+  <label>
+    <input type="radio" name="emailFormat" value="html" checked> 
+    HTML
+  </label>
+  <label>
+    <input type="radio" name="emailFormat" value="text"> 
+    Text
+  </label>
+</div>
+
+
+<!-- Submit -->
+<div class="contact-row7">
+<button type="submit">Submit</button>
+</div>
+
+</form>
+</main>
+</body>
+</html>
