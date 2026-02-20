@@ -1,4 +1,4 @@
-document.getElementById("Contact-Form").onsubmit = () => {
+document.getElementById("Contact-Form").add.onsubmit = () => {
 
     clearErrors();
 
@@ -42,7 +42,7 @@ document.getElementById("Contact-Form").onsubmit = () => {
                 "Please enter a valid email address!";
             document.getElementById("err-email").style.display = "block";
             isValid = false;
-        }
+        } 
     } else {
         // Email optional
         if (email && (!email.includes("@") || !email.includes("."))) {
