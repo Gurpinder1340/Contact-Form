@@ -2,7 +2,7 @@
 import express from 'express';
 
 //array that will store submitted form data
-let contacts = [];
+const contacts = [];
 
 // Create an instance of an Express application
 const app = express();
@@ -12,26 +12,39 @@ app.use(express.static('public'));
 //middleware to parse form data
 app.use(express.urlencoded({ extended: true }));
 
-
 // Define the port number where our server will listen
-const PORT = 3003;
-
+const PORT = 3005; 
 
 // Define a default "route" ('/')
 // req: contains information about the incoming request
 // res: allows us to send back a response to the client
 app.get('/', (req, res) => {
-    
     res.sendFile(`${import.meta.dirname}/views/index.html`);
 });
 
 // Handle form submission
 app.post('/submit', (req, res) => {
-    console.log("New submission:", req.body);
-    contacts.push(req.body);
+    
+    // Create a submission object from form data
+    const submission = {
+        fname: req.body.fname,
+        lname: req.body.lname,
+        email: req.body.email,
+        jobTitle: req.body.jobTitle,
+        company: req.body.company,
+        linkedin: req.body.linkedin,
+        how: req.body.how,
+        other: req.body.other,
+        message: req.body.message,
+    };
+
+    //  store the submission
+    console.log("New submission:", submission);
+    contacts.push(submission);
+
+    // Redirect to the confirmation page
     res.redirect('/confirmation');
 });
-
 
 // Confirmation page
 app.get('/confirmation', (req, res) => {
@@ -44,11 +57,8 @@ app.get('/admin', (req, res) => {
 });
 
 
-
-
 // Start the server and listen on the specified port
 app.listen(PORT, () => {
-
     console.log(`Server is running at http://localhost:${PORT}`);
 
 });
