@@ -1,4 +1,4 @@
-document.getElementById("Contact-Form").add.onsubmit = () => {
+document.getElementById("Contact-Form").onsubmit = () => {
 
     clearErrors();
 

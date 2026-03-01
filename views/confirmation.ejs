@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Confirmation</title>
+</head>
+<body>
+    
+<%- include('partials/navbar') %>
+<h1>Thank you, <%= submission.fname %>!</h1>
+
+<p><strong>Name:</strong> <%= submission.fname %> <%= submission.lname %></p>
+<p><strong>Email:</strong> <%= submission.email %></p>
+<p><strong>Company:</strong> <%= submission.company %></p>
+<p><strong>Message:</strong> <%= submission.message %></p>
+<p><strong>Submitted On:</strong> <%= submission.submittedAt.toLocaleString() %></p>
+
+<button onclick="window.location.href='/'">
+    Return to Home
+</button>
+
+</body>
+</html>

@@ -7,6 +7,9 @@ const contacts = [];
 // Create an instance of an Express application
 const app = express();
 
+//set EJS as the view engine 
+app.set('view engine', 'ejs');
+
 app.use(express.static('public'));
 
 //middleware to parse form data
@@ -18,9 +21,19 @@ const PORT = 3005;
 // Define a default "route" ('/')
 // req: contains information about the incoming request
 // res: allows us to send back a response to the client
-app.get('/', (req, res) => {
-    res.sendFile(`${import.meta.dirname}/views/index.html`);
+ app.get('/', (req, res) => {
+    res.render('index');
 });
+
+// Define contact form route ('/')
+ app.get('/contact', (req, res) => {
+     res.render('contact');
+ });
+
+
+app.get('/admin', (req, res) => {
+    res.render('admin', { contacts });
+}); 
 
 // Handle form submission
 app.post('/submit', (req, res) => {
@@ -33,28 +46,19 @@ app.post('/submit', (req, res) => {
         jobTitle: req.body.jobTitle,
         company: req.body.company,
         linkedin: req.body.linkedin,
-        how: req.body.how,
-        other: req.body.other,
+        how: req.body.meet,
+        other: req.body.otherSpecify,
         message: req.body.message,
+        submittedAt: new Date() 
     };
 
     //  store the submission
     console.log("New submission:", submission);
     contacts.push(submission);
-
-    // Redirect to the confirmation page
-    res.redirect('/confirmation');
+    res.render('confirmation', { submission });
 });
 
-// Confirmation page
-app.get('/confirmation', (req, res) => {
-    res.sendFile(`${import.meta.dirname}/views/confirmation.html`);
-});
-
-// admin route
-app.get('/admin', (req, res) => {
-    res.json(contacts); // send the array as JSON
-});
+ 
 
 
 // Start the server and listen on the specified port
