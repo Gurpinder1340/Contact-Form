@@ -1,68 +1,102 @@
-// Import the express module
+// Import modules
 import express from 'express';
+import mysql2 from 'mysql2';
+import dotenv from 'dotenv';
 
-//array that will store submitted form data
-const contacts = [];
+dotenv.config();
+ 
 
-// Create an instance of an Express application
+// Create a pool of database connections
+const pool = mysql2.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  port: process.env.DB_PORT
+}).promise();
+
+// Create Express app
 const app = express();
 
-//set EJS as the view engine 
+// Set EJS as view engine
 app.set('view engine', 'ejs');
 
+// Serve static files
 app.use(express.static('public'));
 
-//middleware to parse form data
+// Parse form data
 app.use(express.urlencoded({ extended: true }));
 
-// Define the port number where our server will listen
+// Server port
 const PORT = 3005;
 
-// Define a default "route" ('/')
-// req: contains information about the incoming request
-// res: allows us to send back a response to the client
- app.get('/', (req, res) => {
-    res.render('index');
+// Routes
+app.get('/', (req, res) => {
+  res.render('index');
 });
 
-// Define contact form route ('/')
- app.get('/contact', (req, res) => {
-     res.render('contact');
- });
-
-
-app.get('/admin', (req, res) => {
-    res.render('admin', { contacts });
-}); 
-
-// Handle form submission
-app.post('/submit', (req, res) => {
-    
-    // Create a submission object from form data
-    const submission = {
-        fname: req.body.fname,
-        lname: req.body.lname,
-        email: req.body.email,
-        jobTitle: req.body.jobTitle,
-        company: req.body.company,
-        linkedin: req.body.linkedin,
-        how: req.body.meet,
-        other: req.body.otherSpecify,
-        message: req.body.message,
-        submittedAt: new Date() 
-    };
-
-    //  store the submission
-    console.log("New submission:", submission);
-    contacts.push(submission);
-    res.render('confirmation', { submission });
+app.get('/contact', (req, res) => {
+  res.render('contact');
 });
 
+// Handle contact form submission
+app.post('/submit', async (req, res) => {
+  const submission = {
+    fname: req.body.fname,
+    lname: req.body.lname,
+    email: req.body.email,
+    jobTitle: req.body.jobTitle,
+    company: req.body.company,
+    linkedin: req.body.linkedin,
+    how: req.body.meet,
+    other: req.body.otherSpecify,
+    message: req.body.message,
+    submittedAt: new Date()
+  };
+
+  console.log("New submission:", submission);
+
+  try {
+    const [result] = await pool.query(
+      `INSERT INTO contacts 
+      (fname, lname, email, jobTitle, company, linkedin, meet, other, message)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        submission.fname,
+        submission.lname,
+        submission.email,
+        submission.jobTitle,
+        submission.company,
+        submission.linkedin,
+        submission.how,
+        submission.other,
+        submission.message
+      ]
+    );
+    console.log("Inserted ID:", result.insertId);
+  } catch (err) {
+    console.error('Database error:', err);
+    return res.status(500).send("Database error");
+  }
+
+  res.render('confirmation', { submission });
+});
+
+// Admin page to display all submissions
+app.get('/admin', async (req,res) => {
+  try {
+    const contacts = await pool.query('SELECT * FROM contacts');
+    res.render('admin', { contacts: contacts[0] });
+  } catch (err) {
+    console.error('Database error: ', err);
+  }
+});
+   
  
 
 
-// Start the server and listen on the specified port
+// Start server
 app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
-
+  console.log(`Server is running at http://localhost:${PORT}`);
 });
+
