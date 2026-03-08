@@ -62,14 +62,13 @@
 
 <td><%= submission.email %></td>
 
-<td><%= submission.how %></td>
+<td><%= submission.meet %></td>
 
 <td><%= submission.other %></td>
 
 <td><%= submission.message %></td>
 
-<td><%= submission.submittedAt.toLocaleString() %></td>
-
+<td><%= new Date(submission.submittedAt).toLocaleString() %></td>
 </tr>
 
 <% }) %>
